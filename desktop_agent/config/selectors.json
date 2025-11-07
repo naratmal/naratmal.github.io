@@ -1,0 +1,8 @@
+{
+    "결재": "#approvalCountSelector",
+    "공람": "#publicInspectionCountSelector",
+    "문서진행": "#documentProgressCountSelector",
+    "발송대기": "#outboxWaitingCountSelector",
+    "메모": "#memoCountSelector",
+    "메일": "#mailCountSelector"
+}
