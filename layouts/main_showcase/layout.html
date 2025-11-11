@@ -1,0 +1,130 @@
+<!-- Main Showcase Layout -->
+{@
+    $layout_info = isset($layout_info) && $layout_info ? $layout_info : \Context::get('layout_info');
+    if (!$layout_info) {
+        $layout_info = new stdClass();
+    }
+
+    $default_title = '';
+    if (method_exists('Context', 'getBrowserTitle')) {
+        $default_title = \Context::getBrowserTitle();
+    }
+    if (!$default_title) {
+        $default_title = \Context::get('browser_title');
+    }
+    if (!$default_title && method_exists('Context', 'getSiteTitle')) {
+        $default_title = \Context::getSiteTitle();
+    }
+    if (!$default_title) {
+        $default_title = \Context::getLang('site_title');
+    }
+    if (!$default_title) {
+        $default_title = '홈페이지';
+    }
+
+    $site_title = isset($layout_info->site_title) && $layout_info->site_title !== '' ? $layout_info->site_title : $default_title;
+    $site_subtitle = isset($layout_info->site_subtitle) ? $layout_info->site_subtitle : '';
+    $subtitle_size = isset($layout_info->subtitle_font_size) && $layout_info->subtitle_font_size ? $layout_info->subtitle_font_size : '1rem';
+
+    $background_color = isset($layout_info->background_color) && $layout_info->background_color ? $layout_info->background_color : '#0f172a';
+    $background_image = isset($layout_info->background_image) ? $layout_info->background_image : '';
+    $overlay_opacity = isset($layout_info->background_overlay_opacity) && $layout_info->background_overlay_opacity !== '' ? floatval($layout_info->background_overlay_opacity) : 0.55;
+    if ($overlay_opacity < 0) { $overlay_opacity = 0; }
+    if ($overlay_opacity > 1) { $overlay_opacity = 1; }
+    $overlay_opacity_css = number_format($overlay_opacity, 2, '.', '');
+
+    $full_height = isset($layout_info->full_height) && $layout_info->full_height === 'N' ? 'N' : 'Y';
+
+    $youtube_url = isset($layout_info->youtube_url) ? trim($layout_info->youtube_url) : '';
+    $youtube_start = isset($layout_info->youtube_start) ? preg_replace('/[^0-9]/', '', $layout_info->youtube_start) : '';
+    $youtube_mute = isset($layout_info->youtube_mute) && $layout_info->youtube_mute === 'N' ? '0' : '1';
+    $youtube_loop = isset($layout_info->youtube_loop) && $layout_info->youtube_loop === 'N' ? '0' : '1';
+
+    $quick_link_count = isset($layout_info->quick_link_count) && (int)$layout_info->quick_link_count > 0 ? (int)$layout_info->quick_link_count : 5;
+    if ($quick_link_count > 10) { $quick_link_count = 10; }
+
+    $quick_links = array();
+    for ($i = 1; $i <= 10; $i++) {
+        $label_key = 'quick_link_label_' . $i;
+        $url_key = 'quick_link_url_' . $i;
+        $label = isset($layout_info->{$label_key}) ? trim($layout_info->{$label_key}) : '';
+        $url = isset($layout_info->{$url_key}) ? trim($layout_info->{$url_key}) : '';
+        if ($label !== '' && $url !== '') {
+            $quick_links[] = (object) array(
+                'label' => htmlspecialchars($label, ENT_QUOTES, 'UTF-8'),
+                'url' => htmlspecialchars($url, ENT_QUOTES, 'UTF-8')
+            );
+        }
+    }
+    if (count($quick_links) > $quick_link_count) {
+        $quick_links = array_slice($quick_links, 0, $quick_link_count);
+    }
+
+    $container_classes = 'main-showcase' . ($full_height === 'Y' ? ' full-height' : '');
+    $container_classes_attr = htmlspecialchars(trim($container_classes), ENT_QUOTES, 'UTF-8');
+    $background_style = $background_color ? 'background-color: ' . $background_color . ';' : '';
+    if ($background_image) {
+        $background_style .= " background-image: url('" . $background_image . "'); background-size: cover; background-position: center;";
+    }
+    $background_style_attr = htmlspecialchars(trim($background_style), ENT_QUOTES, 'UTF-8');
+
+    $site_title_html = htmlspecialchars($site_title, ENT_QUOTES, 'UTF-8');
+    $site_subtitle_html = htmlspecialchars($site_subtitle, ENT_QUOTES, 'UTF-8');
+    $subtitle_size_css = htmlspecialchars($subtitle_size, ENT_QUOTES, 'UTF-8');
+
+    $video_id = '';
+    if ($youtube_url) {
+        if (preg_match('#(?:youtube\\.com/(?:watch\\?v=|embed/)|youtu\\.be/)([A-Za-z0-9_-]{6,})#', $youtube_url, $matches)) {
+            $video_id = $matches[1];
+        }
+    }
+    $video_src = '';
+    if ($video_id) {
+        $params = array(
+            'autoplay' => '1',
+            'mute' => $youtube_mute,
+            'controls' => '0',
+            'modestbranding' => '1',
+            'playsinline' => '1'
+        );
+        if ($youtube_loop === '1') {
+            $params['loop'] = '1';
+            $params['playlist'] = $video_id;
+        }
+        if ($youtube_start !== '') {
+            $params['start'] = $youtube_start;
+        }
+        $video_src = 'https://www.youtube.com/embed/' . $video_id . '?' . http_build_query($params, '', '&');
+    }
+    $video_src_attr = htmlspecialchars($video_src, ENT_QUOTES, 'UTF-8');
+}
+<load target="layout.css" />
+<div class="{$container_classes_attr}" style="{$background_style_attr}">
+    <div class="overlay" style="background-color: rgba(15, 23, 42, {$overlay_opacity_css});"></div>
+    <div class="content-wrapper">
+        <header class="site-header">
+            <h1 class="site-title">{$site_title_html}</h1>
+            <!--@if($site_subtitle)-->
+            <p class="site-subtitle" style="font-size: {$subtitle_size_css};">{$site_subtitle_html}</p>
+            <!--@end-->
+        </header>
+
+        <!--@if($video_src)-->
+        <div class="video-container">
+            <iframe src="{$video_src_attr}" title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <!--@end-->
+
+        <!--@if(count($quick_links))-->
+        <nav class="quick-links" aria-label="Quick links">
+            <ul>
+                <!--@foreach($quick_links as $link)-->
+                <li><a href="{$link->url}">{$link->label}</a></li>
+                <!--@end-->
+            </ul>
+        </nav>
+        <!--@end-->
+    </div>
+</div>
