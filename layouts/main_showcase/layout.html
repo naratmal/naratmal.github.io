@@ -1,0 +1,80 @@
+<!-- Main Showcase Layout -->
+{@
+    $layout_info = Context::get('layout_info');
+    if (!$layout_info) {
+        $layout_info = new stdClass();
+    }
+    $default_title = Context::get('browser_title') ?: '홈페이지';
+    $site_title = $layout_info->site_title ?? $default_title;
+    $site_subtitle = $layout_info->site_subtitle ?? '';
+    $subtitle_size = $layout_info->subtitle_font_size ?? '1rem';
+    $background_color = $layout_info->background_color ?? '#0f172a';
+    $background_image = $layout_info->background_image ?? '';
+    $youtube_url = $layout_info->youtube_url ?? '';
+    $youtube_start = $layout_info->youtube_start ?? '';
+    $youtube_mute = $layout_info->youtube_mute === 'N' ? '0' : '1';
+    $quick_links = [];
+    for ($i = 1; $i <= 10; $i++) {
+        $label = $layout_info->{"quick_link_label_{$i}"} ?? '';
+        $url = $layout_info->{"quick_link_url_{$i}"} ?? '';
+        if ($label && $url) {
+            $quick_links[] = (object)['label' => $label, 'url' => $url];
+        }
+    }
+    $container_classes = trim('main-showcase' . ($layout_info->full_height === 'N' ? '' : ' full-height'));
+    $background_style = $background_color ? "background-color: {$background_color};" : '';
+    if ($background_image) {
+        $background_style .= "background-image: url('{$background_image}'); background-size: cover; background-position: center;";
+    }
+    $video_id = '';
+    if ($youtube_url) {
+        if (preg_match('#(?:youtube\.com/(?:watch\?v=|embed/)|youtu\.be/)([A-Za-z0-9_-]{6,})#', $youtube_url, $matches)) {
+            $video_id = $matches[1];
+        }
+    }
+    $video_src = '';
+    if ($video_id) {
+        $params = [
+            'autoplay' => '1',
+            'mute' => $youtube_mute,
+            'loop' => '1',
+            'playlist' => $video_id,
+            'controls' => '0',
+            'modestbranding' => '1'
+        ];
+        if ($youtube_start !== '') {
+            $params['start'] = preg_replace('/[^0-9]/', '', $youtube_start);
+        }
+        $query = http_build_query($params);
+        $video_src = sprintf('https://www.youtube.com/embed/%s?%s', $video_id, $query);
+    }
+}
+<load target="layout.css" />
+<div class="{$container_classes}" style="{$background_style}">
+    <div class="overlay"></div>
+    <div class="content-wrapper">
+        <header class="site-header">
+            <h1 class="site-title">{$site_title}</h1>
+            <!--@if($site_subtitle)-->
+            <p class="site-subtitle" style="font-size: {$subtitle_size};">{$site_subtitle}</p>
+            <!--@end-->
+        </header>
+
+        <!--@if($video_src)-->
+        <div class="video-container">
+            <iframe src="{$video_src}" title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <!--@end-->
+
+        <!--@if(count($quick_links))-->
+        <nav class="quick-links">
+            <ul>
+                <!--@foreach($quick_links as $link)-->
+                <li><a href="{$link->url}">{$link->label}</a></li>
+                <!--@end-->
+            </ul>
+        </nav>
+        <!--@end-->
+    </div>
+</div>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout version="1.0">
+    <title xml:lang="ko">메인 쇼케이스 레이아웃</title>
+    <title xml:lang="en">Main Showcase Layout</title>
+    <description xml:lang="ko">유튜브 배경 영상과 퀵 링크를 지원하는 메인 페이지 레이아웃</description>
+    <description xml:lang="en">Hero landing layout with autoplay YouTube video and quick links</description>
+    <author>Auto Generated</author>
+    <homepage>https://example.com</homepage>
+    <date>2024-01-01</date>
+    <version>1.0.0</version>
+    <extra_vars>
+        <var name="site_title" type="text" default="나랏말" required="true">
+            <title xml:lang="ko">홈페이지 제목</title>
+            <title xml:lang="en">Site Title</title>
+        </var>
+        <var name="site_subtitle" type="text" default="나랏말 홈페이지에 오신 것을 환영합니다" required="false">
+            <title xml:lang="ko">설명 문구</title>
+            <title xml:lang="en">Subtitle</title>
+        </var>
+        <var name="subtitle_font_size" type="text" default="1rem" required="false">
+            <title xml:lang="ko">설명 글씨 크기 (예: 0.9rem, 18px)</title>
+            <title xml:lang="en">Subtitle Font Size (e.g. 0.9rem, 18px)</title>
+        </var>
+        <var name="background_color" type="color" default="#0f172a" required="false">
+            <title xml:lang="ko">배경 색상</title>
+            <title xml:lang="en">Background Color</title>
+        </var>
+        <var name="background_image" type="file" default="" required="false">
+            <title xml:lang="ko">배경 이미지</title>
+            <title xml:lang="en">Background Image</title>
+        </var>
+        <var name="full_height" type="select" default="Y">
+            <title xml:lang="ko">전체 화면 높이 사용</title>
+            <title xml:lang="en">Use Full Viewport Height</title>
+            <options>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+            </options>
+        </var>
+        <var name="youtube_url" type="text" default="" required="false">
+            <title xml:lang="ko">유튜브 영상 주소</title>
+            <title xml:lang="en">YouTube Video URL</title>
+        </var>
+        <var name="youtube_start" type="text" default="" required="false">
+            <title xml:lang="ko">영상 시작 시점(초)</title>
+            <title xml:lang="en">Start Time (seconds)</title>
+        </var>
+        <var name="youtube_mute" type="select" default="Y">
+            <title xml:lang="ko">영상 음소거</title>
+            <title xml:lang="en">Mute Video</title>
+            <options>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+            </options>
+        </var>
+        <!-- Quick link slots -->
+        <var name="quick_link_label_1" type="text" default="소개" required="false">
+            <title xml:lang="ko">퀵 링크 1 - 라벨</title>
+            <title xml:lang="en">Quick Link 1 Label</title>
+        </var>
+        <var name="quick_link_url_1" type="text" default="#" required="false">
+            <title xml:lang="ko">퀵 링크 1 - 주소</title>
+            <title xml:lang="en">Quick Link 1 URL</title>
+        </var>
+        <var name="quick_link_label_2" type="text" default="공지사항" required="false">
+            <title xml:lang="ko">퀵 링크 2 - 라벨</title>
+            <title xml:lang="en">Quick Link 2 Label</title>
+        </var>
+        <var name="quick_link_url_2" type="text" default="#" required="false">
+            <title xml:lang="ko">퀵 링크 2 - 주소</title>
+            <title xml:lang="en">Quick Link 2 URL</title>
+        </var>
+        <var name="quick_link_label_3" type="text" default="프로그램" required="false">
+            <title xml:lang="ko">퀵 링크 3 - 라벨</title>
+            <title xml:lang="en">Quick Link 3 Label</title>
+        </var>
+        <var name="quick_link_url_3" type="text" default="#" required="false">
+            <title xml:lang="ko">퀵 링크 3 - 주소</title>
+            <title xml:lang="en">Quick Link 3 URL</title>
+        </var>
+        <var name="quick_link_label_4" type="text" default="문의" required="false">
+            <title xml:lang="ko">퀵 링크 4 - 라벨</title>
+            <title xml:lang="en">Quick Link 4 Label</title>
+        </var>
+        <var name="quick_link_url_4" type="text" default="#" required="false">
+            <title xml:lang="ko">퀵 링크 4 - 주소</title>
+            <title xml:lang="en">Quick Link 4 URL</title>
+        </var>
+        <var name="quick_link_label_5" type="text" default="오시는 길" required="false">
+            <title xml:lang="ko">퀵 링크 5 - 라벨</title>
+            <title xml:lang="en">Quick Link 5 Label</title>
+        </var>
+        <var name="quick_link_url_5" type="text" default="#" required="false">
+            <title xml:lang="ko">퀵 링크 5 - 주소</title>
+            <title xml:lang="en">Quick Link 5 URL</title>
+        </var>
+        <var name="quick_link_label_6" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 6 - 라벨</title>
+            <title xml:lang="en">Quick Link 6 Label</title>
+        </var>
+        <var name="quick_link_url_6" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 6 - 주소</title>
+            <title xml:lang="en">Quick Link 6 URL</title>
+        </var>
+        <var name="quick_link_label_7" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 7 - 라벨</title>
+            <title xml:lang="en">Quick Link 7 Label</title>
+        </var>
+        <var name="quick_link_url_7" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 7 - 주소</title>
+            <title xml:lang="en">Quick Link 7 URL</title>
+        </var>
+        <var name="quick_link_label_8" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 8 - 라벨</title>
+            <title xml:lang="en">Quick Link 8 Label</title>
+        </var>
+        <var name="quick_link_url_8" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 8 - 주소</title>
+            <title xml:lang="en">Quick Link 8 URL</title>
+        </var>
+        <var name="quick_link_label_9" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 9 - 라벨</title>
+            <title xml:lang="en">Quick Link 9 Label</title>
+        </var>
+        <var name="quick_link_url_9" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 9 - 주소</title>
+            <title xml:lang="en">Quick Link 9 URL</title>
+        </var>
+        <var name="quick_link_label_10" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 10 - 라벨</title>
+            <title xml:lang="en">Quick Link 10 Label</title>
+        </var>
+        <var name="quick_link_url_10" type="text" default="" required="false">
+            <title xml:lang="ko">퀵 링크 10 - 주소</title>
+            <title xml:lang="en">Quick Link 10 URL</title>
+        </var>
+    </extra_vars>
+</layout>
